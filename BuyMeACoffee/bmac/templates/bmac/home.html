@@ -1,0 +1,51 @@
+{% extends 'bmac/base.html' %}
+{% block title %}
+<title>Buy Me a Coffee</title>
+{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="col-6 mx-auto mt-5">
+        <div class="text-center">
+            <img src="https://www.seekpng.com/png/detail/94-944682_free-download-coffee-steam-vector-clipart-coffee-cup.png" alt="" srcset="" class="img-fluid img-responsive" style="height: 200px;" >
+        </div>
+        <form method="POST" action="{% url 'home' %}">
+          {% csrf_token %}
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="form-label">Enter Name</label>
+              <input type="text" class="form-control" name="name" id="exampleInputEmail1" aria-describedby="emailHelp">
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputPassword1" class="form-label">Enter Price</label>
+              <input type="number" class="form-control" name="price" id="exampleInputPassword1">
+            </div>
+            <div class="d-grid gap-2">
+                <button class="btn btn-success" type="submit">Submit</button>
+              
+              </div>
+          </form>
+    </div>
+</div>
+
+{% if payment %}
+<div class="container col-6 mx-auto mt-3">
+<form action="/success/" method="POST">
+  <script
+      src="https://checkout.razorpay.com/v1/checkout.js"
+      data-key="rzp_test_daHPr4QhX1TJ4V" 
+      data-amount="{{payment.amount}}" 
+      data-currency="INR"
+      data-order_id="{{payment.id}}"
+      data-buttontext="Pay with Razorpay"
+      data-name="Buy Me A Coffee"
+      data-description="Thanks for buying me a coffee."
+      data-image="https://www.seekpng.com/png/detail/94-944682_free-download-coffee-steam-vector-clipart-coffee-cup.png"
+      data-prefill.name="Your Name"
+      data-prefill.email="yourmail@example.com"
+      data-theme.color="#F37254"
+  ></script>
+  <input type="hidden" custom="Hidden Element" name="hidden" class="btn btn-primary">
+  </form>
+</div>
+{% endif %}
+
+{% endblock %}
